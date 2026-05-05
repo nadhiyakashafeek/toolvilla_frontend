@@ -43,7 +43,7 @@ function RenterHeader() {
   
   return (
     <div>
-      <nav className="bg-white/30 backdrop-blur-md relative shadow-md px-6 py-4 flex items-center justify-between">
+      <nav className="  top-0 left-0 right-0 z-50 bg-transparent px-6 py-3 flex items-center justify-between">
       <div className="absolute inset-0"></div>
       {/* LEFT: Logo + brand name */}
       <div className="flex items-center gap-2">
@@ -52,7 +52,7 @@ function RenterHeader() {
       </div>
 
       {/* MIDDLE: Links */}
-      <div className="flex items-center gap-7">
+      <div className="flex items-center gap-7 ">
         {navLinks.map((link) => (
           <NavItem key={link.label} label={link.label} submenu={link.submenu} />
         ))}
