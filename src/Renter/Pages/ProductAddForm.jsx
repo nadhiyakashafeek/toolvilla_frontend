@@ -1,121 +1,89 @@
-import React from 'react'
-import { Button, Checkbox, Label, Select, Textarea, TextInput } from "flowbite-react";
-import { FileInput } from "flowbite-react";
+import React from "react";
+import {
+  Button,
+  Label,
+  Select,
+  Textarea,
+  TextInput,
+  FileInput,
+} from "flowbite-react";
 
 function ProductAddForm() {
   return (
-    <div>
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6">
-      <div className="w-full max-w-md bg-white rounded-lg shadow-md p-6">
-        <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-50 to-gray-100 p-6">
+      <div className="w-full max-w-lg bg-white rounded-2xl shadow-lg p-8">
+        
+        {/* Header */}
+        <h2 className="text-3xl font-bold text-gray-800 text-center mb-6">
           Add New Tool
         </h2>
 
-        <form className="space-y-4">
+        <form className="space-y-5">
+
           {/* Product Name */}
           <div>
-            <label
-              htmlFor="productName"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Product Name
-            </label>
-            <input
-              type="text"
+            <Label htmlFor="productName" value="Product Name" />
+            <TextInput
               id="productName"
-              placeholder="Enter product name"
-              className=" bg-blue-50 w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="e.g. Electric Drill"
+              required
             />
           </div>
 
-          {/* Product Description */}
+          {/* Description */}
           <div>
-            <label
-              htmlFor="productDescription"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Product Description
-            </label>
-            <textarea
-              id="productDescription"
-              placeholder="Enter product description"
-              rows="4"
-              className=" bg-blue-50 w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            ></textarea>
+            <Label htmlFor="description" value="Product Description" />
+            <Textarea
+              id="description"
+              placeholder="Write a short description..."
+              rows={4}
+              required
+            />
           </div>
+
+          {/* Category */}
           <div>
-            <label
-              htmlFor="availableDates"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Category
-            </label>
-            <select name="category" id="category" className=' bg-blue-50 w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'>
-              <option value="select"></option>
-              <option value="">Hand tool</option>
-              <option value="">Power tool</option>
-              <option value="">General/Construction tool</option>
-
-
-
-            </select>
+            <Label htmlFor="category" value="Category" />
+            <Select id="category" required>
+              <option value="">Select category</option>
+              <option value="hand">Hand Tool</option>
+              <option value="power">Power Tool</option>
+              <option value="construction">Construction Tool</option>
+            </Select>
           </div>
-          {/* Available Dates */}
-          <div >
-            <label
-              htmlFor="availableDates"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Available Dates
-            </label>
-            <div className='grid grid-cols-2 gap-1.5'>
-               <label
-              htmlFor="availableDates"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              From
-            </label>
-              <input
-              type="date"
-              id="availableDates"
-              className=" bg-blue-50 w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
 
-            <label
-              htmlFor="availableDates"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              To 
-            </label>
-            <input
-              type="date"
-              id="availableDates"
-              className=" bg-blue-50 w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+          {/* Dates */}
+          <div>
+            <Label value="Available Dates" />
+            <div className="grid grid-cols-2 gap-4 mt-2">
+              <div>
+                <Label htmlFor="fromDate" value="From" />
+                <TextInput type="date" id="fromDate" required />
+              </div>
+              <div>
+                <Label htmlFor="toDate" value="To" />
+                <TextInput type="date" id="toDate" required />
+              </div>
             </div>
-            
-            
           </div>
 
-          {/* upload images */}
-          <label
-              htmlFor="availableDates"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-             Upload Images
-            </label>
-          {/* Submit Button */}
-          <button
+          {/* Image Upload */}
+          <div>
+            <Label htmlFor="images" value="Upload Images" />
+            <FileInput id="images" multiple />
+          </div>
+
+          {/* Submit */}
+          <Button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-md font-semibold hover:bg-blue-700 transition"
+            className="w-full text-lg font-semibold"
           >
             Add Product
-          </button>
+          </Button>
         </form>
       </div>
     </div>
-    </div>
-  )
+  );
 }
 
-export default ProductAddForm
+export default ProductAddForm;

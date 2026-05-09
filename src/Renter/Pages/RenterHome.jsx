@@ -2,7 +2,7 @@ import React from 'react'
 import { Card, Carousel } from "flowbite-react";
 import { Link } from 'react-router-dom';
 import RenterFooter from '../Components/RenterFooter';
-import RenterHeader from '../Components/RenterHeader';
+import RenterHeader from '../../users/components/RenterHeader';
 
 function RenterHome() {
   return (

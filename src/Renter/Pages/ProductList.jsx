@@ -1,10 +1,6 @@
-"use client";
-
 import { Breadcrumb, BreadcrumbItem } from "flowbite-react";
-import { HiHome } from "react-icons/hi";
-
-
 import { useState } from "react";
+import { HiHome } from "react-icons/hi";
 
 // ─── 1. PRODUCT DATA ───────────────────────────────────────────────
 const products = [
@@ -72,12 +68,14 @@ const products = [
 
 const categories = ["All", "Power Tools", "Hand Tools", "Measuring", "Clamping"];
 
-function AllProducts() {
+// ─── 2. MAIN COMPONENT ────────────────────────────────────────────
+function ProductList() {
+
   // Things that can change on the page
-  const [search, setSearch] = useState("");
-  const [category, setCategory] = useState("All");
+  const [search, setSearch]       = useState("");
+  const [category, setCategory]   = useState("All");
   const [stockOnly, setStockOnly] = useState(false);
-  const [list, setList] = useState(products);
+  const [list, setList]           = useState(products);
 
   // Delete a product
   function handleDelete(id) {
@@ -86,9 +84,9 @@ function AllProducts() {
 
   // Filter products based on search + category + stock toggle
   const filtered = list.filter((p) => {
-    const matchSearch = p.name.toLowerCase().includes(search.toLowerCase());
+    const matchSearch   = p.name.toLowerCase().includes(search.toLowerCase());
     const matchCategory = category === "All" || p.category === category;
-    const matchStock = stockOnly ? p.inStock : true;
+    const matchStock    = stockOnly ? p.inStock : true;
     return matchSearch && matchCategory && matchStock;
   });
 
@@ -128,7 +126,7 @@ function AllProducts() {
               key={cat}
               onClick={() => setCategory(cat)}
               className={`px-4 py-1.5 rounded-full text-sm font-medium border transition-all cursor-pointer
-                 ${category === cat
+                ${category === cat
                   ? "bg-slate-800 text-white border-slate-800"
                   : "bg-white text-slate-500 border-slate-200 hover:border-slate-400"
                 }`}
@@ -144,10 +142,10 @@ function AllProducts() {
           <div
             onClick={() => setStockOnly(!stockOnly)}
             className={`w-11 h-6 rounded-full cursor-pointer flex items-center px-1 transition-colors
-               ${stockOnly ? "bg-emerald-500" : "bg-slate-300"}`}
+              ${stockOnly ? "bg-emerald-500" : "bg-slate-300"}`}
           >
             <div className={`w-4 h-4 bg-white rounded-full shadow transition-transform
-               ${stockOnly ? "translate-x-5" : "translate-x-0"}`}
+              ${stockOnly ? "translate-x-5" : "translate-x-0"}`}
             />
           </div>
         </div>
@@ -183,7 +181,7 @@ function AllProducts() {
                 />
                 {/* Stock badge */}
                 <span className={`absolute top-3 right-3 text-xs font-semibold px-3 py-1 rounded-full
-                   ${product.inStock
+                  ${product.inStock
                     ? "bg-emerald-100 text-emerald-700"
                     : "bg-red-100 text-red-600"
                   }`}>
@@ -252,4 +250,5 @@ function AllProducts() {
     </div>
   );
 }
-export default AllProducts
+
+export default ProductList
