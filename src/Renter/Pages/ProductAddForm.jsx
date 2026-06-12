@@ -10,7 +10,7 @@ import {
 } from "flowbite-react";
 
 function ProductAddForm() {
-  const [preview, setPreview] = React.useState(" ")
+  const [preview, setPreview] = React.useState("")
   const [previewList, setPreviewList] = React.useState([])
   const [productDetails, setProductDetails] = React.useState({
     itemname: "",
@@ -22,8 +22,8 @@ function ProductAddForm() {
     dimensions: "",
     weight: "",
     email: "",
-    fromDate:"",
-    toDate:"",
+    fromDate: "",
+    toDate: "",
     images: []
   })
 
@@ -31,7 +31,7 @@ function ProductAddForm() {
     e.preventDefault();
     console.log(productDetails);
 
-    const { itemname, description, sku, brand, category, price, stock, dimensions, weight, email, images,fromDate,toDate } = productDetails;
+    const { itemname, description, sku, brand, category, price, stock, dimensions, weight, email, images, fromDate, toDate } = productDetails
 
     // Basic validation
     if (itemname && description && sku && brand && category && price && stock && dimensions && weight && fromDate && toDate) {
@@ -51,10 +51,10 @@ function ProductAddForm() {
 
         // Build FormData body
         const reqBody = new FormData();
-        
+
 
         for (let key in productDetails) {
-          if (key !=="images") {
+          if (key !== "images") {
             reqBody.append(key, productDetails[key]);
           } else {
             productDetails.images.forEach((item) => (
@@ -67,17 +67,25 @@ function ProductAddForm() {
         console.log(reqBody);
         console.log(reqHeader);
 
-        
-        const response = await addProductAPI(reqBody,reqHeader)
+
+        const response = await addProductAPI(reqBody, reqHeader);
         console.log(response);
 
-        // if (response.status === 200) {
-        //   alert("Product added successfully!");
-        // } else {
-        //   alert("Failed to add product. Please try again.");
-        // }
+        // ✅ Uncomment this
+        if (response.status === 200) {
+          alert("Product added successfully!");
+          // optionally reset the form
+          setProductDetails({
+            itemname: "", description: "", sku: "", brand: "",
+            category: "", price: "", stock: "", dimensions: "",
+            weight: "", email: "", fromDate: "", toDate: "", images: []
+          });
+          setPreviewList([]);
+        } else {
+          alert("Failed to add product. Please try again.");
+        }
       } catch (error) {
-        console.log("Error adding product:"+error);
+        console.log("Error adding product:", error);
         alert("Error adding product. Check console for details.");
       }
     }

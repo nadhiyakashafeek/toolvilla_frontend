@@ -27,3 +27,4 @@ export const googleLoginAPI = async(reqBody)=>{
 export const addProductAPI = async(reqBody, reqHeader)=>{
     return await commonAPI('POST',`${serverURL}/api/addProduct`,reqBody,reqHeader)
 }
+
