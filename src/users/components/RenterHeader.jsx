@@ -5,41 +5,7 @@ import { IoMdAddCircle } from "react-icons/io";
 import { Avatar, Dropdown, DropdownDivider, DropdownHeader, DropdownItem, Navbar, NavbarToggle } from 'flowbite-react';
 import { Link, useNavigate } from 'react-router-dom';
 
-// const navLinks = [
-//   { label: "Home" },
-//   { label: "Services", submenu: ["Web Design", "App Development", "SEO"] },
-//   { label: "Pages",    submenu: ["About Us", "Blog", "FAQ"] },
-//   { label: "Contact" },
-// ];
 
-// function NavItem({ label, submenu }) {
-//   const [open, setOpen] = useState(false);
-
-//   return (
-//     <div
-//       className="relative"
-//       onMouseEnter={() => setOpen(true)}   // open on hover
-//       onMouseLeave={() => setOpen(false)}  // close when mouse leaves
-//     >
-//       <button className="flex items-center gap-1 text-gray-600 hover:text-blue-600 font-medium text-sm">
-//         {label}
-//         {submenu && <span className="text-[10px]">{open ? "▲" : "▼"}</span>}
-//       </button>
-
-//       {/* Submenu — only shows if this link has one AND open is true */}
-//       {submenu && open && (
-//         <div className="absolute top-full left-0 mt-2 w-44 bg-white rounded-xl shadow-lg border border-gray-100 z-10">
-//           {submenu.map((item) => (
-//             <a key={item} href="#"
-//               className="block px-4 py-2.5 text-sm text-gray-600 hover:bg-blue-50 hover:text-blue-600 first:rounded-t-xl last:rounded-b-xl">
-//               {item}
-//             </a>
-//           ))}
-//         </div>
-//       )}
-//     </div>
-//   );
-// }
 function RenterHeader() {
   const navigate = useNavigate();
 
@@ -73,6 +39,9 @@ function RenterHeader() {
             </Link>
             <Link to="/" className="text-black hover:text-[#660000] font-medium transition-colors">
              💡 How it works
+            </Link>
+            <Link to={'/allproducts'} className="text-black hover:text-[#660000] font-medium transition-colors">
+             ➕ All Products
             </Link>
             
             <Link to="/contact" className="text-black hover:text-[#660000] font-medium transition-colors">

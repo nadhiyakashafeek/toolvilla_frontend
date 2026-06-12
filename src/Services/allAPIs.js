@@ -19,4 +19,11 @@ export const googleLoginAPI = async(reqBody)=>{
     return await commonAPI('POST',`${serverURL}/api/googleLogin`,reqBody,"")
 }
 
+// Add Tool API - POST(reqBody,token)
+// export const addProductAPI = async(reqBody, reqHeader)=>{
+//     return await commonAPI('POST',`${serverURL}/api/addProduct`,reqBody,reqHeader)
+// }
 
+export const addProductAPI = async(reqBody, reqHeader)=>{
+    return await commonAPI('POST',`${serverURL}/api/addProduct`,reqBody,reqHeader)
+}

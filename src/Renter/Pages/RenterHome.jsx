@@ -5,6 +5,23 @@ import RenterFooter from '../Components/RenterFooter';
 import RenterHeader from '../../users/components/RenterHeader';
 
 function RenterHome() {
+  const steps = [
+  { icon: "🔧", number: "Step 01", title: "List your tool", desc: "Owners add specs, pricing, and availability to their listing." },
+  { icon: "📍", number: "Step 02", title: "Discover nearby", desc: "Engineers browse tools using smart location-based matching." },
+  { icon: "📨", number: "Step 03", title: "Send a request", desc: "Pick a rental period and send a request to the owner." },
+  { icon: "✅", number: "Step 04", title: "Approve & coordinate", desc: "Owner approves and both parties agree on handover details." },
+  { icon: "🔄", number: "Step 05", title: "Use & return", desc: "Engineer uses the tool and returns it after the agreed period." },
+];
+
+const categories = [
+  { name: "Power tools",      count: 42, img: "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=400&auto=format&fit=crop" },
+  { name: "Hand tools",       count: 38, img: "https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=400&auto=format&fit=crop" },
+  { name: "Measuring tools",  count: 21, img: "https://images.unsplash.com/photo-1581244277943-fe4a9c777540?w=400&auto=format&fit=crop" },
+  { name: "Safety equipment", count: 17, img: "https://images.unsplash.com/photo-1590402494682-cd3fb53b1f70?w=400&auto=format&fit=crop" },
+  { name: "Clamping tools",   count: 14, img: "https://images.unsplash.com/photo-1530124566582-a618bc2615dc?w=400&auto=format&fit=crop" },
+  { name: "Cutting tools",    count: 29, img: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?w=400&auto=format&fit=crop" },
+];
+
   return (
     <div>
      <RenterHeader/>
@@ -23,50 +40,77 @@ function RenterHome() {
         </div>
       </div>
 
-      <div className='text-center  text-3xl font-bol mt-20'>
-        <h1> How this Works </h1>
-        <span className='m-5'>
-          <p className='text-justify mx-25'>
-            Our platform connects tool owners with engineers who need equipment in a simple and efficient way. Tool owners can list their available hardware by adding details such as specifications, pricing, and availability, while engineers can browse and discover tools based on their nearby location. Using smart location-based matching, engineers can find the most convenient options and send rental requests for a specific time period. Once a request is received, the tool owner can review and approve it, after which both parties can coordinate the rental terms, including duration and handover details. The engineer can then use the tool for the agreed period and return it once the work is completed, creating a seamless and reliable rental experience for both sides.
-          </p>
-        </span>
+      <section className="py-10 px-4 text-center bg-white ">
+
+      <p className="text-2xl font-semibold tracking-widest text-emerald-600 uppercase mb-2">
+        Simple process
+      </p>
+
+      <h2 className="text-4xl font-semibold text-gray-900 mb-3">
+        How it works
+      </h2>
+
+      <p className="text-gray-500 text-2xl max-w-lg mx-auto mb-12 leading-relaxed">
+        Connect tool owners with engineers who need equipment — fast, local, and reliable.
+      </p>
+
+      <div className="flex flex-wrap justify-center max-w-6xl mx-auto">
+        {steps.map((step, index) => (
+          <div key={index} className="flex items-center">
+
+            <div className="flex flex-col items-center px-6 py-4 w-100">
+              <div className="w-12 h-12 rounded-full bg-emerald-50 flex items-center justify-center text-xl mb-3">
+                {step.icon}
+              </div>
+              <p className="text-xs font-medium text-emerald-600 mb-1 tracking-wide">{step.number}</p>
+              <p className="text-xl font-semibold text-gray-800 mb-1">{step.title}</p>
+              <p className="text-xl text-gray-400 leading-relaxed">{step.desc}</p>
+            </div>
+
+            {index < steps.length - 1 && (
+              <span className="text-gray-300 text-xl mb-6 hidden sm:block">›</span>
+            )}
+
+          </div>
+        ))}
       </div>
+
+    </section>
 
       <hr className="w-100 h-1 mx-auto my-4 bg-gray-600 border-0 rounded-sm md:my-10"/>
-      <div className='text-center  text-3xl font-bol mt-20'>
-        <span>
-          <h1> Categories</h1>
-        </span>
+   <section className="px-8 py-12">
 
+      <hr className="border-t border-gray-200 mb-10" />
+
+      {/* Header */}
+      <div className="text-center mb-8">
+        <p className="text-xs font-semibold tracking-widest text-emerald-600 uppercase mb-1">
+          Browse by type
+        </p>
+        <h2 className="text-2xl font-semibold text-gray-900">Categories</h2>
       </div>
-      <div className='grid grid-cols-3 gap-4 mx-50 '>
-        <Card className='h-60 w-70 p-5 transition-transform duration-500 hover:scale-110'>
-          <img src="https://media.istockphoto.com/id/872608724/photo/various-reparement-tools-scattered.jpg?s=170667a&w=0&k=20&c=G-ymizwdD7MzMhg3ZlX8fj8mCV2bdQmZo6jHo1ZNCxw=" alt="" />
 
-          <p className='text-center '> item-name </p>
-        </Card>
-        <Card className='h-60 w-70 p-5 transition-transform duration-500 hover:scale-110'>
-          <img src="https://media.istockphoto.com/id/872608724/photo/various-reparement-tools-scattered.jpg?s=170667a&w=0&k=20&c=G-ymizwdD7MzMhg3ZlX8fj8mCV2bdQmZo6jHo1ZNCxw=" alt="" />
-          <p className='text-center'> item-name </p>
-        </Card>
-        <Card className='h-60 w-70 p-5 transition-transform duration-500 hover:scale-110'>
-          <img src="https://media.istockphoto.com/id/872608724/photo/various-reparement-tools-scattered.jpg?s=170667a&w=0&k=20&c=G-ymizwdD7MzMhg3ZlX8fj8mCV2bdQmZo6jHo1ZNCxw=" alt="" />
-          <p className='text-center'> item-name </p>
-        </Card>
-        <Card className='h-60 w-70 p-5 transition-transform duration-500 hover:scale-110'>
-          <img src="https://media.istockphoto.com/id/872608724/photo/various-reparement-tools-scattered.jpg?s=170667a&w=0&k=20&c=G-ymizwdD7MzMhg3ZlX8fj8mCV2bdQmZo6jHo1ZNCxw=" alt="" />
-          <p className='text-center'> item-name </p>
-        </Card>
-        <Card className='h-60 w-70 p-5 transition-transform duration-500 hover:scale-110'>
-          <img src="https://media.istockphoto.com/id/872608724/photo/various-reparement-tools-scattered.jpg?s=170667a&w=0&k=20&c=G-ymizwdD7MzMhg3ZlX8fj8mCV2bdQmZo6jHo1ZNCxw=" alt="" />
-          <p className='text-center'> item-name </p>
-        </Card>
-        <Card className='h-60 w-70 p-5 transition-transform duration-500 hover:scale-110'>
-          <img src="https://media.istockphoto.com/id/872608724/photo/various-reparement-tools-scattered.jpg?s=170667a&w=0&k=20&c=G-ymizwdD7MzMhg3ZlX8fj8mCV2bdQmZo6jHo1ZNCxw=" alt="" />
-          <p className='text-center'> item-name </p>
-        </Card>
-
+      {/* Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto">
+        {categories.map((cat) => (
+          <Card
+            key={cat.name}
+            className="overflow-hidden p-0 hover:scale-105 transition-transform duration-300 cursor-pointer"
+          >
+            <img
+              src={cat.img}
+              alt={cat.name}
+              className="w-full h-36 object-cover"
+            />
+            <div className="px-4 py-3 text-center">
+              <p className="text-sm font-semibold text-gray-800">{cat.name}</p>
+              <p className="text-xs text-gray-400">{cat.count} items</p>
+            </div>
+          </Card>
+        ))}
       </div>
+
+    </section>
 
       
       <div className='text-center  text-3xl font-bol mt-20'>
