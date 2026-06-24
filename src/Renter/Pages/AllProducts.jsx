@@ -56,6 +56,10 @@ function AllProducts() {
       setFilteredProducts(filtered);
     }
   };
+
+  const handleSearch =(searchKey)=>{
+    console.log(searchKey)
+  }
   return (
     <div className="min-h-screen bg-slate-50">
 
@@ -88,7 +92,9 @@ function AllProducts() {
               placeholder="Search by name or SKU..."
               className="w-full pl-9 pr-4 py-2.5 rounded-lg border border-slate-200 text-sm text-slate-700 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500"
             />
+           
           </div>
+          <Button color="cyan">Profile</Button>
         </div>
       </div>
       {/* sidebar */}
