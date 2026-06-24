@@ -22,6 +22,7 @@ function ProductAddForm() {
     dimensions: "",
     weight: "",
     email: "",
+    imgUrl:"",
     fromDate: "",
     toDate: "",
     images: []
@@ -31,7 +32,7 @@ function ProductAddForm() {
     e.preventDefault();
     console.log(productDetails);
 
-    const { itemname, description, sku, brand, category, price, stock, dimensions, weight, email, images, fromDate, toDate } = productDetails
+    const { itemname, description, sku, brand, category, price, stock, dimensions, weight, email, images, fromDate, toDate,imgUrl } = productDetails
 
     // Basic validation
     if (itemname && description && sku && brand && category && price && stock && dimensions && weight && fromDate && toDate) {
@@ -69,31 +70,39 @@ function ProductAddForm() {
 
 
         const response = await addProductAPI(reqBody, reqHeader);
-        console.log(response);
+        console.log("Response status:", response.status); // ← add this
+        console.log("Response data:", response.data);     // ← add this
 
-        // ✅ Uncomment this
         if (response.status === 200) {
           alert("Product added successfully!");
-          // optionally reset the form
           setProductDetails({
-            itemname: "", description: "", sku: "", brand: "",
+            itemname: "", description: "", sku: "", brand: "", imgUrl:"",
             category: "", price: "", stock: "", dimensions: "",
             weight: "", email: "", fromDate: "", toDate: "", images: []
-          });
+          })
           setPreviewList([]);
-        } else {
-          alert("Failed to add product. Please try again.");
         }
       } catch (error) {
-        console.log("Error adding product:", error);
-        alert("Error adding product. Check console for details.");
+        console.log("Error status:", error.response?.status);  // ← add this
+        console.log("Error data:", error.response?.data);      // ← add this
+        alert("Error: " + error.response?.data?.message);
       }
+
     }
 
     else {
       alert("Please fill in all the fields.");
     }
   };
+
+ const resetForm = async()=>{
+      setProductDetails({
+            itemname: "", description: "", sku: "", brand: "",imgUrl:"",
+            category: "", price: "", stock: "", dimensions: "",
+            weight: "", email: "", fromDate: "", toDate: "", images: []
+          })
+          setPreviewList([]);
+    }
 
 
   const handleUpload = async (e) => {
@@ -117,7 +126,7 @@ function ProductAddForm() {
 
     console.log(previewList);
 
-
+   
 
   }
   return (
@@ -134,7 +143,7 @@ function ProductAddForm() {
           {/* Product Name */}
           <div className="flex-row gap-3 mb-2">
             <Label htmlFor="productName" value="Product Name" />
-            <TextInput className="mb-2" onChange={(e) => setProductDetails({ ...productDetails, itemname: e.target.value })}
+            <TextInput value={productDetails.itemname} className="mb-2" onChange={(e) => setProductDetails({ ...productDetails, itemname: e.target.value })}
               id="productName"
               placeholder="e.g. Electric Drill"
               required
@@ -146,11 +155,11 @@ function ProductAddForm() {
             <div className="grid grid-cols-2 gap-4 mt-2">
               <div>
                 <Label htmlFor="sku" value="SKU" />
-                <TextInput type="text" id="sku" required placeholder="SKU" onChange={(e) => setProductDetails({ ...productDetails, sku: e.target.value })} />
+                <TextInput value={productDetails.sku} type="text" id="sku" required placeholder="SKU" onChange={(e) => setProductDetails({ ...productDetails, sku: e.target.value })} />
               </div>
               <div>
                 <Label htmlFor="brand" value="Brand" />
-                <TextInput type="text" id="brand" required placeholder="Brand" onChange={(e) => setProductDetails({ ...productDetails, brand: e.target.value })} />
+                <TextInput value={productDetails.brand} type="text" id="brand" required placeholder="Brand" onChange={(e) => setProductDetails({ ...productDetails, brand: e.target.value })} />
               </div>
             </div>
           </div>
@@ -158,23 +167,32 @@ function ProductAddForm() {
           {/* Description */}
           <div>
             <Label htmlFor="description" value="Product Description" />
-            <Textarea onChange={(e) => setProductDetails({ ...productDetails, description: e.target.value })}
+            <Textarea value={productDetails.description} onChange={(e) => setProductDetails({ ...productDetails, description: e.target.value })}
               id="description"
               placeholder="Write a short description..."
               rows={4}
               required
             />
           </div>
+          <div className="flex-row gap-3 mb-2">
+            <Label htmlFor="imgUrl" value="imgUrl" />
+            <TextInput value={productDetails.imgUrl} className="mb-2" onChange={(e) => setProductDetails({ ...productDetails, imgUrl: e.target.value })}
+              id="imgUrl"
+              placeholder="Image Url"
+              required
+            />
+
+          </div>
           <div>
             <Label value=" " />
             <div className="grid grid-cols-2 gap-4 mt-2">
               <div>
                 <Label htmlFor="dimensions" value="dimensions" />
-                <TextInput type="text" id="dimensions" required placeholder="dimensions" onChange={(e) => setProductDetails({ ...productDetails, dimensions: e.target.value })} />
+                <TextInput value={productDetails.dimensions} type="text" id="dimensions" required placeholder="dimensions" onChange={(e) => setProductDetails({ ...productDetails, dimensions: e.target.value })} />
               </div>
               <div>
                 <Label htmlFor="price" value="price" />
-                <TextInput type="text" id="price" required placeholder="rent per day" onChange={(e) => setProductDetails({ ...productDetails, price: e.target.value })} />
+                <TextInput value={productDetails.price} type="text" id="price" required placeholder="rent per day" onChange={(e) => setProductDetails({ ...productDetails, price: e.target.value })} />
               </div>
             </div>
           </div>
@@ -183,11 +201,11 @@ function ProductAddForm() {
             <div className="grid grid-cols-2 gap-4 mt-2">
               <div>
                 <Label htmlFor="stock" value="stock" />
-                <TextInput type="text" id="stock" required placeholder="stock" onChange={(e) => setProductDetails({ ...productDetails, stock: e.target.value })} />
+                <TextInput value={productDetails.stock} type="text" id="stock" required placeholder="stock" onChange={(e) => setProductDetails({ ...productDetails, stock: e.target.value })} />
               </div>
               <div>
                 <Label htmlFor="weight" value="weight" />
-                <TextInput type="text" id="weight" required placeholder="weight" onChange={(e) => setProductDetails({ ...productDetails, weight: e.target.value })} />
+                <TextInput value={productDetails.weight} type="text" id="weight" required placeholder="weight" onChange={(e) => setProductDetails({ ...productDetails, weight: e.target.value })} />
               </div>
             </div>
           </div>
@@ -195,7 +213,7 @@ function ProductAddForm() {
           {/* Category */}
           <div>
             <Label htmlFor="category" value="Category" />
-            <Select id="category" required onChange={(e) => setProductDetails({ ...productDetails, category: e.target.value })}>
+            <Select value={productDetails.category} id="category" required onChange={(e) => setProductDetails({ ...productDetails, category: e.target.value })}>
               <option value="">Select category</option>
               <option value="hand">Hand Tool</option>
               <option value="power">Power Tool</option>
@@ -209,11 +227,11 @@ function ProductAddForm() {
             <div className="grid grid-cols-2 gap-4 mt-2">
               <div>
                 <Label htmlFor="fromDate" value="From" />
-                <TextInput type="date" id="fromDate" required onChange={(e) => setProductDetails({ ...productDetails, fromDate: e.target.value })} />
+                <TextInput value={productDetails.fromDate} type="date" id="fromDate" required onChange={(e) => setProductDetails({ ...productDetails, fromDate: e.target.value })} />
               </div>
               <div>
                 <Label htmlFor="toDate" value="To" />
-                <TextInput type="date" id="toDate" required onChange={(e) => setProductDetails({ ...productDetails, toDate: e.target.value })} />
+                <TextInput value={productDetails.toDate} type="date" id="toDate" required onChange={(e) => setProductDetails({ ...productDetails, toDate: e.target.value })} />
               </div>
             </div>
           </div>
@@ -246,14 +264,30 @@ function ProductAddForm() {
               </div>
             )}
           </div>
+          <div>
+            <Label value=" " />
+            <div className="grid grid-cols-2 gap-4 mt-2">
+              <div>
+                <Button onClick={handleAddProduct}
+                  type="submit"
+                  className="w-full text-lg font-semibold"
+                >
+                  Add Product
+                </Button>
+              </div>
+              <div>
+                <Button onClick={resetForm}
+                  type="submit"
+                  className="w-full text-lg font-semibold"
+                >
+                  Reset
+                </Button>
+              </div>
+            </div>
+          </div>
 
           {/* Submit */}
-          <Button onClick={handleAddProduct}
-            type="submit"
-            className="w-full text-lg font-semibold"
-          >
-            Add Product
-          </Button>
+
         </form>
       </div>
     </div>

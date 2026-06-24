@@ -28,3 +28,14 @@ export const addProductAPI = async(reqBody, reqHeader)=>{
     return await commonAPI('POST',`${serverURL}/api/addProduct`,reqBody,reqHeader)
 }
 
+export const viewProductsAPI = async(reqHeader)=>{
+    return await commonAPI('GET',`${serverURL}/api/viewProducts`,null,reqHeader)
+}
+
+export const homeProductsAPI = async()=>{
+    return await commonAPI('GET',`${serverURL}/api/homeProducts`,"","")
+}
+
+export const getaProductAPI = async(id,reqHeader)=>{
+    return await commonAPI('GET',`${serverURL}/api/getaProduct/${id}`,null,reqHeader)
+}

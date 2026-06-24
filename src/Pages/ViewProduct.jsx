@@ -1,53 +1,56 @@
-import React, { useState } from 'react'
-// import RenterHeader from '../Components/RenterHeader'
+import React, { useState, useEffect } from 'react'
+import { getaProductAPI } from '../Services/allAPIs'
+import { useParams } from 'react-router-dom'
 
 function ViewProduct() {
+  const { id } = useParams()
   const [selectedImg, setSelectedImg] = useState(0)
   const [qty, setQty] = useState(1)
+  const [token, setToken] = useState("")
+  const [viewaProduct, setviewaProduct] = useState({})
 
-  const images = [
-    "https://toolswarehouse.in/cdn/shop/files/81dNVvSMcfL._SX569.jpg?v=1754033271&width=711",
-    "https://toolswarehouse.in/cdn/shop/files/81dNVvSMcfL._SX569.jpg?v=1754033271&width=711",
-    "https://toolswarehouse.in/cdn/shop/files/81dNVvSMcfL._SX569.jpg?v=1754033271&width=711",
-  ]
+  // Get token on mount
+  useEffect(() => {
+    setToken(sessionStorage.getItem("token"))
+  }, [])
 
-  const specs = [
-    { label: "Material", value: "Chrome Vanadium Steel" },
-    { label: "Handle", value: "Anti-slip rubber grip" },
-    { label: "Length", value: "150 mm" },
-    { label: "Weight", value: "120 g" },
-    { label: "Type", value: "Flathead / Phillips" },
-  ]
+  // Fetch product when token is ready
+  useEffect(() => {
+    if (token) {
+      getaProduct()
+    }
+  }, [token])
+
+  const getaProduct = async () => {
+    try {
+      const reqHeader = {
+        Authorization: `Bearer ${token}`
+      }
+      const response = await getaProductAPI(id, reqHeader)
+      console.log(response)
+      setviewaProduct(response.data.singleproduct)
+    } catch (err) {
+      console.log("error", err)
+    }
+  }
+
+  // Use images from API, fallback to empty array
+  const images = viewaProduct?.images?.length > 0 ? viewaProduct.images : []
 
   return (
     <div className="min-h-screen bg-gray-50 font-sans">
-      {/* <RenterHeader /> */}
 
       {/* ── Breadcrumb ── */}
-      
-      {/* <div className="max-w-6xl mx-auto px-6 pt-6">
+      <div className="max-w-6xl mx-auto px-6 pt-6">
         <nav className="flex items-center gap-2 text-sm text-gray-400">
           <span className="hover:text-gray-600 cursor-pointer">Home</span>
           <span>/</span>
           <span className="hover:text-gray-600 cursor-pointer">Tools</span>
           <span>/</span>
-          <span className="text-gray-700 font-medium">Screw Driver</span>
+          <span className="text-gray-700 font-medium">{viewaProduct?.itemname || "View Product"}</span>
         </nav>
-      </div> */}
+      </div>
 
-
-    <div className='max-w-6xl mx-auto px-6 pt-6'>
-        <nav className='flex items-center gap-2 text-sm text-gray-400'>
-            <span className='hover:text-gray-600 cursor-pointer'>Home</span>
-            <span>/</span>
-            <span className='hover:text-gray-600 cursor-pointer'>Tools</span>
-            <span>/</span>
-            <span className='hover:text-gray-600 cursor-pointer'>Viewproduct</span>
-            <span></span>
-
-        </nav>
-
-    </div>
       {/* ── Main Grid ── */}
       <div className="max-w-6xl mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-2 gap-10">
 
@@ -55,11 +58,15 @@ function ViewProduct() {
         <div className="flex flex-col gap-4">
           {/* Main image */}
           <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden flex items-center justify-center p-6 aspect-square shadow-sm">
-            <img
-              src={images[selectedImg]}
-              alt="Product"
-              className="w-full h-full object-contain transition-all duration-300"
-            />
+            {images.length > 0 ? (
+              <img
+                src={images[selectedImg]}
+                alt={viewaProduct?.itemname}
+                className="w-full h-full object-contain transition-all duration-300"
+              />
+            ) : (
+              <span className="text-gray-300 text-6xl">🔧</span>
+            )}
           </div>
 
           {/* Thumbnails */}
@@ -82,41 +89,36 @@ function ViewProduct() {
         {/* ── Right: Product Details ── */}
         <div className="flex flex-col gap-0">
 
-          {/* Brand + badges */}
+          {/* Brand + stock badge */}
           <div className="flex items-center gap-2 mb-3">
-            <span className="text-xs font-semibold bg-green-100 text-green-700 px-3 py-1 rounded-full tracking-wide uppercase">
-              Stanley
-            </span>
-            <span className="text-xs font-semibold bg-blue-100 text-blue-700 px-3 py-1 rounded-full tracking-wide uppercase">
-              In Stock
+            {viewaProduct?.brand && (
+              <span className="text-xs font-semibold bg-green-100 text-green-700 px-3 py-1 rounded-full tracking-wide uppercase">
+                {viewaProduct.brand}
+              </span>
+            )}
+            <span className={`text-xs font-semibold px-3 py-1 rounded-full tracking-wide uppercase
+              ${viewaProduct?.stock > 0
+                ? 'bg-blue-100 text-blue-700'
+                : 'bg-red-100 text-red-600'}`}>
+              {viewaProduct?.stock > 0 ? 'In Stock' : 'Out of Stock'}
             </span>
           </div>
 
           {/* Title */}
           <h1 className="text-3xl font-bold text-gray-900 leading-tight">
-            Professional Screw Driver Set
+            {viewaProduct?.itemname || "Loading..."}
           </h1>
 
-          {/* Rating */}
-          <div className="flex items-center gap-2 mt-2">
-            <div className="flex text-yellow-400 text-sm">
-              {'★'.repeat(4)}{'☆'.repeat(1)}
-            </div>
-            <span className="text-sm text-gray-500">4.0 <span className="text-gray-300">|</span> 128 reviews</span>
-          </div>
-
-          {/* ── Divider ── */}
           <div className="my-5 border-t border-gray-100" />
 
-          {/* Price block */}
+          {/* Price */}
           <div className="flex items-baseline gap-3">
-            <span className="text-4xl font-bold text-gray-900">₹349</span>
-            <span className="text-lg text-gray-400 line-through">₹499</span>
-            <span className="text-sm font-semibold text-green-600 bg-green-50 px-2 py-0.5 rounded-md">30% off</span>
+            <span className="text-4xl font-bold text-gray-900">
+              {viewaProduct?.price ? `₹${viewaProduct.price}` : "—"}
+            </span>
           </div>
           <p className="text-xs text-gray-400 mt-1">Inclusive of all taxes. Free delivery above ₹499.</p>
 
-          {/* ── Divider ── */}
           <div className="my-5 border-t border-dashed border-gray-200" />
 
           {/* Quantity + CTA */}
@@ -140,16 +142,22 @@ function ViewProduct() {
             </button>
           </div>
 
-          {/* ── Divider with label ── */}
+          {/* Specs divider */}
           <div className="flex items-center gap-3 my-6">
             <div className="flex-1 border-t border-gray-100" />
             <span className="text-xs font-semibold text-gray-400 uppercase tracking-widest">Specifications</span>
             <div className="flex-1 border-t border-gray-100" />
           </div>
 
-          {/* Specs table — divide-y pattern */}
+          {/* Specs from API */}
           <div className="divide-y divide-gray-100 rounded-xl border border-gray-100 overflow-hidden">
-            {specs.map(({ label, value }) => (
+            {[
+              { label: "Category",   value: viewaProduct?.category },
+              { label: "SKU",        value: viewaProduct?.sku },
+              { label: "Weight",     value: viewaProduct?.weight },
+              { label: "Dimensions", value: viewaProduct?.dimensions },
+              { label: "Stock",      value: viewaProduct?.stock },
+            ].filter(s => s.value).map(({ label, value }) => (
               <div key={label} className="flex items-center justify-between px-4 py-3 bg-white hover:bg-gray-50 transition-colors">
                 <span className="text-sm text-gray-400 font-medium">{label}</span>
                 <span className="text-sm text-gray-800 font-semibold">{value}</span>
@@ -157,37 +165,19 @@ function ViewProduct() {
             ))}
           </div>
 
-          {/* ── Divider with label ── */}
+          {/* Description divider */}
           <div className="flex items-center gap-3 my-6">
             <div className="flex-1 border-t border-gray-100" />
             <span className="text-xs font-semibold text-gray-400 uppercase tracking-widest">Description</span>
             <div className="flex-1 border-t border-gray-100" />
           </div>
 
-          {/* Description */}
+          {/* Description from API */}
           <p className="text-sm text-gray-500 leading-relaxed">
-            A precision-engineered screwdriver built for professionals and enthusiasts alike. The ergonomic anti-slip handle provides maximum torque with minimal effort. Chrome vanadium steel tips resist wear and deliver a tight fit on every fastener type.
+            {viewaProduct?.description || "No description available."}
           </p>
 
-          {/* ── Bottom accent divider ── */}
           <div className="mt-8 h-1 w-16 bg-green-500 rounded-full" />
-        </div>
-      </div>
-
-      {/* ── Full-bleed section break ── */}
-      <div className="h-2 bg-gray-100 border-y border-gray-200 my-6" />
-
-      {/* ── Related products strip ── */}
-      <div className="max-w-6xl mx-auto px-6 pb-12">
-        <h2 className="text-lg font-bold text-gray-800 mb-4">You may also like</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {["Hammer", "Wrench Set", "Drill Bit", "Pliers"].map(name => (
-            <div key={name} className="bg-white rounded-xl border border-gray-100 p-4 hover:shadow-md hover:-translate-y-1 transition-all duration-200 cursor-pointer">
-              <div className="bg-gray-50 rounded-lg h-28 flex items-center justify-center text-3xl mb-3">🔧</div>
-              <p className="text-sm font-semibold text-gray-800">{name}</p>
-              <p className="text-xs text-green-600 font-medium mt-1">From ₹199/day</p>
-            </div>
-          ))}
         </div>
       </div>
     </div>
