@@ -1,4 +1,4 @@
-import { Breadcrumb, BreadcrumbItem } from "flowbite-react";
+import { Breadcrumb, BreadcrumbItem, Button } from "flowbite-react";
 import { HiHome } from "react-icons/hi";
 import { useState, useEffect, useContext } from "react";
 import { viewProductsAPI } from "../../Services/allAPIs";
@@ -29,13 +29,13 @@ function AllProducts() {
     }
   }, [token]);
 
-  const viewAllProducts = async () => {
+  const viewAllProducts = async (searchKey) => {
     try {
       const reqHeader = {
         Authorization: `Bearer ${token}`,
       };
       console.log("inside view products")
-      const response = await viewProductsAPI(reqHeader);
+      const response = await viewProductsAPI(searchKey,reqHeader);
       console.log(response);
       setAllProducts(response.data.products);
       setFilteredProducts(response.data.products); // Initialize filtered products
@@ -80,23 +80,25 @@ function AllProducts() {
 {/* search  */}
 
  <div className="w-full bg-white border-b border-slate-100 px-6 py-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="relative">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
-              </svg>
-            </span>
-            <input onChange={(e)=>setSearchKey(e.target.value)}
-              type="text"
-              placeholder="Search by name or SKU..."
-              className="w-full pl-9 pr-4 py-2.5 rounded-lg border border-slate-200 text-sm text-slate-700 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500"
-            />
-           
-          </div>
-          <Button color="cyan">Profile</Button>
-        </div>
+  <div className="max-w-7xl mx-auto">
+    <div className="relative flex items-center gap-2">
+      <div className="relative flex-1">
+        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
+          </svg>
+        </span>
+        <input
+          onChange={(e) => setSearchKey(e.target.value)}
+          type="text"
+          placeholder="Search by name or SKU..."
+          className="w-full pl-9 pr-4 py-2.5 rounded-lg border border-slate-200 text-sm text-slate-700 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500"
+        />
       </div>
+      <Button color="cyan">Search</Button>
+    </div>
+  </div>
+</div>
       {/* sidebar */}
       <div className="flex gap-6">
         <div className='flex '>

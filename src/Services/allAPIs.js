@@ -28,8 +28,8 @@ export const addProductAPI = async(reqBody, reqHeader)=>{
     return await commonAPI('POST',`${serverURL}/api/addProduct`,reqBody,reqHeader)
 }
 
-export const viewProductsAPI = async(reqHeader)=>{
-    return await commonAPI('GET',`${serverURL}/api/viewProducts`,null,reqHeader)
+export const viewProductsAPI = async(searchKey, reqHeader)=>{
+    return await commonAPI('GET',`${serverURL}/api/viewProducts?search=${searchKey}`,"",reqHeader)
 }
 
 export const homeProductsAPI = async()=>{
